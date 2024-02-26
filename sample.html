@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>Wiinvent Tizen-Webos</title>
+
+    <link href="https://unpkg.com/video.js/dist/video-js.css" rel="stylesheet">
+    <script src="https://unpkg.com/video.js/dist/video.js"></script>
+    <script src="https://unpkg.com/videojs-contrib-hls/dist/videojs-contrib-hls.js"></script>
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/2.5.12/controls.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/2.5.12/shaka-player.ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/3.0.0/shaka-player.compiled.js"></script>
+    <script defer src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js"></script>
+    <script src="js/main.js"></script>
+</head>
+
+<body style="margin: 0; " cz-shortcut-listen="true">
+
+<div id="videoId">
+    <video id="videojs-player" controls playsinline muted
+           class="video-js vjs-default-skin vjs-big-play-centered wrap">
+        <source src="http://vjs.zencdn.net/v/oceans.mp4" type="video/mp4">
+    </video>
+</div>
+
+<script src="https://wiinvent.tv/sdk/wii-sdk-1.6.3.js"></script>
+
+<script>
+  var wiiSdk = [];
+  const player = videojs("videojs-player");
+
+  wiiSdk = new WI.InstreamSdk({
+    env: WI.Environment.SANDBOX,
+    tenantId: 14,
+    deviceType: WI.DeviceType.WEB,
+    domId: "videoId",
+    channelId: "2",
+    streamId: "9999",
+    partnerSkipOffset: 0,
+    vastLoadTimeout: 10,
+    mediaLoadTimeout: 10,
+    bufferingVideoTimeout: 15,
+    alwaysCustomSkip: true,
+    isAutoRequestFocus: false,
+    bitrate: 1024,
+    skipText: "Skip ads after {0} seconds",
+    skippableText: "Skip ads"
+  })
+  player.one("play", () => wiiSdk.start())
+
+  window.addEventListener("message", function (e) {
+    if (
+      [
+        "REQUEST",
+        "LOADED",
+        "START",
+        "PAUSED",
+        "RESUMED",
+        "ERROR",
+        "PLAYER_ERROR",
+        "CLICK",
+        "IMPRESSION",
+        "SKIPPED",
+        "COMPLETE",
+        "DESTROY",
+        "FULLSCREEN",
+        "END",
+        "All_ADS_COMPLETE",
+      ].includes(e.data.type)) {
+      console.log('mmmm', e)
+    }
+  })
+</script>
+</body>
+</html>
