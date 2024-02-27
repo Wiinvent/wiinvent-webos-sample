@@ -17,7 +17,7 @@ wiiSdk = new WI.InstreamSdk({
   domId: "videoId",
   channelId: "2",
   streamId: "9999",
-  partnerSkipOffset: 0,
+  partnerSkipOffset: 6,
   vastLoadTimeout: 10,
   mediaLoadTimeout: 10,
   bufferingVideoTimeout: 15,
