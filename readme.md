@@ -8,15 +8,14 @@ SDK:
 
 ```javascript
 var wiiSdk = [];
-const player = videojs("videojs-player");
 
 wiiSdk = new WI.InstreamSdk({
   env: WI.Environment.SANDBOX,
   tenantId: 14,
-  deviceType: WI.DeviceType.WEB,
+  deviceType: WI.DeviceType.TV,
   domId: "videoId",
   channelId: "2",
-  streamId: "9999",
+  streamId: "1999",
   partnerSkipOffset: 6,
   vastLoadTimeout: 10,
   mediaLoadTimeout: 10,
@@ -27,7 +26,13 @@ wiiSdk = new WI.InstreamSdk({
   skipText: "Skip ads after {0} seconds",
   skippableText: "Skip ads"
 })
-player.one('play', () => wiiSdk.start())
+
+wiiSdk.start()
+
+//video.one('play', () => wiiSdk.start())
+//video.on('error', () => wiiSdk.destroy())
+//video.on('reSize', () => wiiSdk.changeSize(w, h))
+
 window.addEventListener("message", function (e) {
   if (
     [
