@@ -1,37 +1,65 @@
 SDK:
 
 ````javascript
-<script src="https://wiinvent.tv/sdk/tv/wii-sdk-1.6.3.js"></script>
+<script src="https://wiinvent.tv/sdk/tv/wii-sdk-1.6.4.js"></script>
 ````
 
 1. Code Instream Sample:
 
 ```javascript
-var wiiSdk = [];
+var video = document.getElementById('video');
+var wiiSdk = []
 
-wiiSdk = new WI.InstreamSdk({
-  env: WI.Environment.SANDBOX,
-  tenantId: 14,
-  deviceType: WI.DeviceType.TV,
-  domId: "videoId",
-  channelId: "2",
-  streamId: "1999",
-  partnerSkipOffset: 6,
-  vastLoadTimeout: 10,
-  mediaLoadTimeout: 10,
-  bufferingVideoTimeout: 15,
-  alwaysCustomSkip: true,
-  isAutoRequestFocus: false,
-  bitrate: 1024,
-  skipText: "Skip ads after {0} seconds",
-  skippableText: "Skip ads"
-})
-
-wiiSdk.start()
-
-//video.one('play', () => wiiSdk.start())
-//video.on('error', () => wiiSdk.destroy())
-//video.on('reSize', () => wiiSdk.changeSize(w, h))
+if (Hls.isSupported()) {
+  var hls = new Hls({
+    debug: true,
+  });
+  wiiSdk = new WI.InstreamSdk({
+    env: WI.Environment.SANDBOX,
+    tenantId: 14,
+    deviceType: WI.DeviceType.TV,
+    domId: "videoId",
+    channelId: "2",
+    streamId: "1999",
+    partnerSkipOffset: 6,
+    vastLoadTimeout: 10,
+    mediaLoadTimeout: 10,
+    bufferingVideoTimeout: 15,
+    alwaysCustomSkip: true,
+    isAutoRequestFocus: false,
+    bitrate: 1024,
+    skipText: "Skip ads after {0} seconds",
+    skippableText: "Skip ads"
+  })
+  hls.loadSource('https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8');
+  hls.attachMedia(video);
+  hls.on(Hls.Events.MEDIA_ATTACHED, function () {
+    video.muted = true;
+    video.play().then(() => wiiSdk.start())
+  });
+} else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+  wiiSdk = new WI.InstreamSdk({
+    env: WI.Environment.SANDBOX,
+    tenantId: 14,
+    deviceType: WI.DeviceType.TV,
+    domId: "videoId",
+    channelId: "2",
+    streamId: "1999",
+    partnerSkipOffset: 6,
+    vastLoadTimeout: 10,
+    mediaLoadTimeout: 10,
+    bufferingVideoTimeout: 15,
+    alwaysCustomSkip: true,
+    isAutoRequestFocus: false,
+    bitrate: 1024,
+    skipText: "Skip ads after {0} seconds",
+    skippableText: "Skip ads"
+  })
+  video.src = 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8';
+  video.addEventListener('canplay', function () {
+    video.play().then(() => wiiSdk.start())
+  });
+}
 
 window.addEventListener("message", function (e) {
   if (
