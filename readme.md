@@ -19,6 +19,7 @@ if (Hls.isSupported()) {
     tenantId: 14,
     deviceType: WI.DeviceType.TV,
     domId: "videoId",
+    player: video,
     channelId: "2",
     streamId: "1999",
     partnerSkipOffset: 6,
