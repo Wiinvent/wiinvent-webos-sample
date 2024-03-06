@@ -1,17 +1,19 @@
 SDK:
 
 ````javascript
-<script src="https://wiinvent.tv/sdk/tv/wii-sdk-1.6.4.js"></script>
+<script src="https://wiinvent.tv/sdk/tv/wii-sdk-1.6.5.js"></script>
 ````
 
 1. Code Instream Sample:
 
 ```javascript
 var video = document.getElementById('video');
+var src = "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
 var wiiSdk = []
 
 if (Hls.isSupported()) {
   var hls = new Hls({
+    enableWorker: true,
     debug: true,
   });
   wiiSdk = new WI.InstreamSdk({
@@ -19,7 +21,9 @@ if (Hls.isSupported()) {
     tenantId: 14,
     deviceType: WI.DeviceType.TV,
     domId: "videoId",
+    hls: hls,
     player: video,
+    srcVideo: src,
     channelId: "2",
     streamId: "1999",
     partnerSkipOffset: 6,
@@ -32,34 +36,10 @@ if (Hls.isSupported()) {
     skipText: "Skip ads after {0} seconds",
     skippableText: "Skip ads"
   })
-  hls.loadSource('https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8');
+  hls.loadSource(src);
   hls.attachMedia(video);
-  hls.on(Hls.Events.MEDIA_ATTACHED, function () {
-    video.muted = true;
-    video.play().then(() => wiiSdk.start())
-  });
-} else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-  wiiSdk = new WI.InstreamSdk({
-    env: WI.Environment.SANDBOX,
-    tenantId: 14,
-    deviceType: WI.DeviceType.TV,
-    domId: "videoId",
-    channelId: "2",
-    streamId: "1999",
-    partnerSkipOffset: 6,
-    vastLoadTimeout: 10,
-    mediaLoadTimeout: 10,
-    bufferingVideoTimeout: 15,
-    alwaysCustomSkip: true,
-    isAutoRequestFocus: false,
-    bitrate: 1024,
-    skipText: "Skip ads after {0} seconds",
-    skippableText: "Skip ads"
-  })
-  video.src = 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8';
-  video.addEventListener('canplay', function () {
-    video.play().then(() => wiiSdk.start())
-  });
+  video.muted = true;
+  wiiSdk.start()
 }
 
 window.addEventListener("message", function (e) {
