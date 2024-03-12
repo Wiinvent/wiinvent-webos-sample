@@ -1,7 +1,7 @@
 SDK:
 
 ````javascript
-<script src="https://wiinvent.tv/sdk/tv/wii-sdk-1.6.8.js"></script>
+<script src="https://wiinvent.tv/sdk/tv/wii-sdk-1.6.11.js"></script>
 ````
 
 1. Code Instream Sample:
@@ -59,7 +59,7 @@ window.addEventListener("message", function (e) {
       "DESTROY",
       "FULLSCREEN",
       "END",
-      "All_ADS_COMPLETE",
+      "ALL_ADS_COMPLETE",
     ].includes(e.data.type)) {
     console.log('mmmm', e)
   }
@@ -69,24 +69,24 @@ window.addEventListener("message", function (e) {
 
 2. Parameter
 
-| Key                   | Description                                               |     Type |
-|:----------------------|:----------------------------------------------------------|---------:|
-| tenantId              | Identifier of the account created by the Broadcast Center |  integer |
-| channelId             | Identifier of the channel created by partner              |   string |
-| streamId              | Identifier of the channel created by partner              |   string |
-| vastLoadTimeout       | Vast Load Timeout                                         |  integer |
-| mediaLoadTimeout      | Media Load Timeout                                        |  integer |
-| bufferingVideoTimeout | Buffering Video Timeout                                   |  integer |                                  
-| partnerSkipOffset     | Skip Ad Duration                                          |  integer |                                  
-| env                   | Override the API host url for development and testing     | constant |
-| deviceType            | Device Type                                               | constant |
-| thirdPartyToken       | JWT Token from partner                                    |   string |
-| playerType            | Player Type                                               | constant |
-| alwaysCustomSkip      | Decided to use custom skip button                         |  boolean |
-| isAutoRequestFocus    | Decided to focus on skip button after skip time           |  boolean |
-| bitrate               | Bitrate                                                   |   number |
-| skipText              | Text show on skip button when time count                  |   string |
-| skippableText         | Text show on skip button when can skip                    |   string |
+| Key                     | Description                                               |     Type |
+|:------------------------|:----------------------------------------------------------|---------:|
+| tenantId                | Identifier of the account created by the Broadcast Center |  integer |
+| channelId               | Identifier of the channel created by partner              |   string |
+| streamId                | Identifier of the channel created by partner              |   string |
+| vastLoadTimeout         | Vast Load Timeout                                         |  integer |
+| mediaLoadTimeout        | Media Load Timeout                                        |  integer |
+| bufferingVideoTimeout   | Buffering Video Timeout                                   |  integer |                                  
+| partnerSkipOffset       | Skip Ad Duration                                          |  integer |                                  
+| env                     | Override the API host url for development and testing     | constant |
+| deviceType              | Device Type                                               | constant |
+| thirdPartyToken         | JWT Token from partner                                    |   string |
+| alwaysCustomSkip        | Decided to use custom skip button                         |  boolean |
+| isAutoRequestFocus      | Decided to focus on skip button after skip time           |  boolean |
+| bitrate                 | Bitrate                                                   |   number |
+| skipText                | Text show on skip button when time count                  |   string |
+| skippableText           | Text show on skip button when can skip                    |   string |
+| isUsePartnerSkipButton  | Decide using skip button or not                           |   string |
 
 3. Constant
 
@@ -99,15 +99,15 @@ window.addEventListener("message", function (e) {
 
 4. Ads Callback
 
-| Type      | Value      | Description                                   |
-|:----------|:-----------|:----------------------------------------------|
-| EventType | REQUEST    | Fired when the ad requests                    |
-| EventType | LOADED     | Fired when the ad loaded                      |
-| EventType | START      | Fired when the ad starts playing              |
-| EventType | IMPRESSION | Fired when the impression URL has been pinged |
-| EventType | CLICK      | Fired when the ad is clicked                  |
-| EventType | COMPLETE   | Fired when the ad completes playing           |
-| EventType | SKIPPED    | Fired when the ad is skipped by the user      |
-| EventType | ERROR      | Fired when the ad has an error                |
-| EventType | DESTROY    | Fires when the ad destroyed                   |
+| Type      | Value            | Description                                   |
+|:----------|:-----------------|:----------------------------------------------|
+| EventType | REQUEST          | Fired when the ad requests                    |
+| EventType | LOADED           | Fired when the ad loaded                      |
+| EventType | START            | Fired when the ad starts playing              |
+| EventType | IMPRESSION       | Fired when the impression URL has been pinged |
+| EventType | COMPLETE         | Fired when the ad completes playing           |
+| EventType | SKIPPED          | Fired when the ad is skipped by the user      |
+| EventType | ERROR            | Fired when the ad has an error                |
+| EventType | DESTROY          | Fires when the ad destroyed                   |
+| EventType | ALL_ADS_COMPLETE | Fires when no more ad will show up            |
 

@@ -19,7 +19,7 @@
 
 <body>
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-<script src="https://wiinvent.tv/sdk/tv/wii-sdk-1.6.8.js"></script>
+<script src="https://wiinvent.tv/sdk/tv/wii-sdk-1.6.11.js"></script>
 
 <div id="videoId">
   <video id="video" controls></video>
@@ -40,7 +40,6 @@
       tenantId: 14,
       deviceType: WI.DeviceType.TV,
       domId: "videoId",
-      hls: hls,
       player: video,
       srcVideo: src,
       channelId: "2",
@@ -53,11 +52,9 @@
       isAutoRequestFocus: false,
       bitrate: 1024,
       skipText: "Skip ads after {0} seconds",
-      skippableText: "Skip ads"
+      skippableText: "Skip ads",
+      isUsePartnerSkipButton: true
     })
-    hls.loadSource(src);
-    hls.attachMedia(video);
-    video.muted = true;
     wiiSdk.start()
   }
 
@@ -78,7 +75,7 @@
         "DESTROY",
         "FULLSCREEN",
         "END",
-        "All_ADS_COMPLETE",
+        "ALL_ADS_COMPLETE",
       ].includes(e.data.type)) {
       console.log('mmmm', e)
     }
