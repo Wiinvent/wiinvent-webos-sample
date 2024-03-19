@@ -1,7 +1,7 @@
 SDK:
 
 ````javascript
-<script src="https://wiinvent.tv/sdk/tv/wii-sdk-1.6.12.js"></script>
+<script src="https://wiinvent.tv/sdk/tv/wii-sdk-1.6.14.js"></script>
 ````
 
 1. Code Instream Sample:
@@ -74,7 +74,7 @@ var wiiSdk = [];
 wiiSdk = new WI.WelcomeSdk({
   env: WI.Environment.SANDBOX,
   tenantId: 14,
-  deviceType: WI.DeviceType.WEB,
+  deviceType: WI.DeviceType.TV,
   partnerSkipOffset: 5,
   vastLoadTimeout: 10,
   mediaLoadTimeout: 10,
