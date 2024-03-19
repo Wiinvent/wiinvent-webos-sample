@@ -1,7 +1,7 @@
 SDK:
 
 ````javascript
-<script src="https://wiinvent.tv/sdk/tv/wii-sdk-1.6.11.js"></script>
+<script src="https://wiinvent.tv/sdk/tv/wii-sdk-1.6.12.js"></script>
 ````
 
 1. Code Instream Sample:
@@ -66,8 +66,54 @@ window.addEventListener("message", function (e) {
 })
 
 ```
+2. Code Welcome Sample:
 
-2. Parameter
+```javascript
+var wiiSdk = [];
+
+wiiSdk = new WI.WelcomeSdk({
+  env: WI.Environment.SANDBOX,
+  tenantId: 14,
+  deviceType: WI.DeviceType.WEB,
+  partnerSkipOffset: 5,
+  vastLoadTimeout: 10,
+  mediaLoadTimeout: 10,
+  bufferingVideoTimeout: 15,
+  alwaysCustomSkip: true,
+  isAutoRequestFocus: false,
+  bitrate: 1024,
+  skipText: "Skip ads after {0} seconds",
+  skippableText: "Skip ads"
+})
+wiiSdk.start()
+
+window.addEventListener("message", function (e) {
+  if (
+    [
+      "HAVE_ADS",
+      "NO_ADS",
+      "REQUEST",
+      "LOADED",
+      "START",
+      "PAUSED",
+      "RESUMED",
+      "ERROR",
+      "PLAYER_ERROR",
+      "CLICK",
+      "IMPRESSION",
+      "SKIPPED",
+      "COMPLETE",
+      "DESTROY",
+      "FULLSCREEN",
+      "END"
+    ].includes(e.data.type)
+  ) {
+    console.log("mmmm", e);
+  }
+});
+
+```
+3. Parameter
 
 | Key                     | Description                                               |     Type |
 |:------------------------|:----------------------------------------------------------|---------:|
@@ -88,7 +134,7 @@ window.addEventListener("message", function (e) {
 | skippableText           | Text show on skip button when can skip                    |   string |
 | isUsePartnerSkipButton  | Decide using skip button or not                           |   string |
 
-3. Constant
+4. Constant
 
 | Key         | Description                                                                                      |     
 |:------------|:-------------------------------------------------------------------------------------------------|
@@ -97,10 +143,12 @@ window.addEventListener("message", function (e) {
 | env         | WI.Environment.SANDBOX <br/> WI.Environment.PRODUCTION                                           |   
 | contentType | WI.ContentType.VOD <br/>WI.ContentType.LIVESTREAM                                                | 
 
-4. Ads Callback
+5. Ads Callback
 
 | Type      | Value            | Description                                   |
 |:----------|:-----------------|:----------------------------------------------|
+| EventType | HAVE_ADS         | Fired when have welcome ad                    |
+| EventType | NO_ADS           | Fired when not have welcome ad                |
 | EventType | REQUEST          | Fired when the ad requests                    |
 | EventType | LOADED           | Fired when the ad loaded                      |
 | EventType | START            | Fired when the ad starts playing              |

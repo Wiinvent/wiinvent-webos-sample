@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width"/>
+  <title>Welcome sdk</title>
+</head>
+
+<body>
+<div id="root">
+  <h1>Welcome demo</h1>
+</div>
+
+<script src="https://wiinvent.tv/sdk/tv/wii-sdk-1.6.12.js"></script>
+
+<script>
+
+  var wiiSdk = [];
+
+  wiiSdk = new WI.WelcomeSdk({
+    env: WI.Environment.SANDBOX,
+    tenantId: 14,
+    deviceType: WI.DeviceType.WEB,
+    partnerSkipOffset: 5,
+    vastLoadTimeout: 10,
+    mediaLoadTimeout: 10,
+    bufferingVideoTimeout: 15,
+    alwaysCustomSkip: true,
+    isAutoRequestFocus: false,
+    bitrate: 1024,
+    skipText: "Skip ads after {0} seconds",
+    skippableText: "Skip ads",
+    isUsePartnerSkipButton: true
+  })
+  wiiSdk.start()
+
+  window.addEventListener("message", function (e) {
+    if (
+      [
+        "HAVE_ADS",
+        "NO_ADS",
+        "REQUEST",
+        "LOADED",
+        "START",
+        "PAUSED",
+        "RESUMED",
+        "ERROR",
+        "PLAYER_ERROR",
+        "CLICK",
+        "IMPRESSION",
+        "SKIPPED",
+        "COMPLETE",
+        "DESTROY",
+        "FULLSCREEN",
+        "END",
+        "All_ADS_COMPLETE",
+      ].includes(e.data.type)
+    ) {
+      console.log("mmmm", e);
+    }
+  });
+
+</script>
+</body>
+</html>
