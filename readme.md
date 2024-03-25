@@ -1,7 +1,7 @@
 SDK:
 
 ````javascript
-<script src="https://wiinvent.tv/sdk/tv/wii-sdk-1.6.14.js"></script>
+<script src="https://wiinvent.tv/sdk/tv/wii-sdk-1.6.15.js"></script>
 ````
 
 1. Code Instream Sample:
@@ -21,11 +21,21 @@ if (Hls.isSupported()) {
     tenantId: 14,
     deviceType: WI.DeviceType.TV,
     domId: "videoId",
-    hls: hls,
     player: video,
     srcVideo: src,
     channelId: "2",
     streamId: "1999",
+    contentType: "VOD",
+    title: "noi dung 1",
+    transId: "111",
+    category: "1, 2",
+    keyword: "1, 2",
+    age: "20",
+    gender: "MALE",
+    manufacturer: "OPPO",
+    model: "CPH2159",
+    osName: "Android",
+    osVersion: "13",
     partnerSkipOffset: 6,
     vastLoadTimeout: 10,
     mediaLoadTimeout: 10,
@@ -34,7 +44,8 @@ if (Hls.isSupported()) {
     isAutoRequestFocus: false,
     bitrate: 1024,
     skipText: "Skip ads after {0} seconds",
-    skippableText: "Skip ads"
+    skippableText: "Skip ads",
+    isUsePartnerSkipButton: true
   })
   hls.loadSource(src);
   hls.attachMedia(video);
@@ -74,6 +85,13 @@ var wiiSdk = [];
 wiiSdk = new WI.WelcomeSdk({
   env: WI.Environment.SANDBOX,
   tenantId: 14,
+  transId: "111",
+  age: "20",
+  gender: "MALE",
+  manufacturer: "OPPO",
+  model: "CPH2159",
+  osName: "Android",
+  osVersion: "13",
   deviceType: WI.DeviceType.TV,
   partnerSkipOffset: 5,
   vastLoadTimeout: 10,
@@ -83,7 +101,8 @@ wiiSdk = new WI.WelcomeSdk({
   isAutoRequestFocus: false,
   bitrate: 1024,
   skipText: "Skip ads after {0} seconds",
-  skippableText: "Skip ads"
+  skippableText: "Skip ads",
+  isUsePartnerSkipButton: true
 })
 wiiSdk.start()
 
