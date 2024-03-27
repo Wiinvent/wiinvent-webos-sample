@@ -31,7 +31,7 @@ if (Hls.isSupported()) {
     category: "1, 2",
     keyword: "1, 2",
     age: "20",
-    gender: WI.Gnder.MALE,
+    gender: WI.Gender.MALE,
     partnerSkipOffset: 6,
     vastLoadTimeout: 10,
     mediaLoadTimeout: 10,
