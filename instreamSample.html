@@ -19,7 +19,7 @@
 
 <body>
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-<script src="https://wiinvent.tv/sdk/tv/wii-sdk-1.6.18.js"></script>
+<script src="https://wiinvent.tv/sdk/tv/wii-sdk-1.6.19.js"></script>
 
 <div id="videoId">
   <video id="video" controls></video>
@@ -44,13 +44,13 @@
       srcVideo: src,
       channelId: "3001",
       streamId: "2024",
-      contentType: "VOD",
+      contentType: WI.ContentType.VOD,
       title: "noi dung 1",
       transId: "111",
       category: "1, 2",
       keyword: "1, 2",
       age: "20",
-      gender: "MALE",
+      gender: WI.Gender.MALE,
       partnerSkipOffset: 6,
       vastLoadTimeout: 10,
       mediaLoadTimeout: 10,
