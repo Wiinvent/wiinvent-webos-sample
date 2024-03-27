@@ -1,0 +1,21 @@
+
+9
+	readme.md,2\7\275d783e298228506068436512433d343feb52aa
+C
+instreamSample.html,0\8\08f2524bf08f874afda648d061898a54ec93d5fb
+B
+welcomeSample.html,1\a\1a734e21e304e2ae846f5db0c52d4f14a6618914
+w
+G.idea/sonarlint/issuestore/2/7/275d783e298228506068436512433d343feb52aa,7\a\7a815f6d0a2d3a2d3d14916e1861118541e8c8d8
+w
+G.idea/sonarlint/issuestore/1/a/1a734e21e304e2ae846f5db0c52d4f14a6618914,a\8\a8ce277cdd20d1f3475412798f926f4671938363
+Å
+Q.idea/sonarlint/securityhotspotstore/1/a/1a734e21e304e2ae846f5db0c52d4f14a6618914,f\3\f363acee5217279584cf445c18785e8aa6a4f36f
+Å
+Q.idea/sonarlint/securityhotspotstore/0/8/08f2524bf08f874afda648d061898a54ec93d5fb,b\b\bbceaa98caa0c243b2704c186ecc7843fbaaa305
+]
+-.idea/sonarlint/securityhotspotstore/index.pb,8\8\88a9255124c95bdc913197c120a8d560edc59c8e
+Å
+Q.idea/sonarlint/securityhotspotstore/2/7/275d783e298228506068436512433d343feb52aa,6\5\656e63ac78f0e3565927253313972dab26c9a477
+S
+#.idea/sonarlint/issuestore/index.pb,9\f\9fe84ebb15faf917b7def6236dba604453cc61e0
