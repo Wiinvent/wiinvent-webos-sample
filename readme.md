@@ -157,7 +157,7 @@ window.addEventListener("message", function (e) {
 | playerType  | WI.PlayerType.VIDEO_JS <br> WI.PlayerType.SHAKA <br> WI.PlayerType.HLS <br/>WI.PlayerType.AKAMAI |  
 | deviceType  | WI.DeviceType.TV <br/> WI.DeviceType.WEB                                                         |  
 | env         | WI.Environment.SANDBOX <br/> WI.Environment.PRODUCTION                                           |   
-| contentType | WI.ContentType.VOD <br/>WI.ContentType.LIVESTREAM                                                | 
+| contentType | WI.ContentType.VOD <br/>WI.ContentType.LIVE_STREAM                                               | 
 | gender      | WI.Gender.MALE <br/>WI.Gender.FEMALE <br/>WI.Gender.OTHER <br/>WI.Gender.NONE                    | 
 
 5. Ads Callback
