@@ -144,11 +144,12 @@ window.addEventListener("message", function (e) {
 | skipText                | Text show on skip button when time count                  |   string |
 | skippableText           | Text show on skip button when can skip                    |   string |
 | isUsePartnerSkipButton  | Decide using skip button or not                           |   string |
-| title                   | Title                                                     |   string |
-| tranId                  | TranId                                                    |   string |
-| category                | Category                                                  |   string |
-| keyword                 | Keyword                                                   |   string |
-| age                     | Age                                                       |   number |
+| title                   | Tiêu đề của nội dung                                      |   string |
+| tranId                  | transaction id của nội dung                               |   string |
+| category                | Danh sách danh mục, được ngăn cách bởi dấu ,              |   string |
+| keyword                 | Từ khoá (nếu có)                                          |   string |
+| age                     | Tuổi (Nếu có)                                             |   number |
+| gender                  | Giới tính (nếu có)                                        | constant |
 
 4. Constant
 
