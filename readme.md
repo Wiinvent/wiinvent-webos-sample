@@ -1,7 +1,7 @@
 SDK:
 
 ````javascript
-<script src="https://wiinvent.tv/sdk/tv/wii-sdk-1.6.20.js"></script>
+<script src="https://wiinvent.tv/sdk/tv/wii-sdk-1.6.21.js"></script>
 ````
 
 1. Code Instream Sample:
