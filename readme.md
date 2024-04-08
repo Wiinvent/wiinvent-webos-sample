@@ -1,7 +1,7 @@
 SDK:
 
 ````javascript
-<script src="https://wiinvent.tv/sdk/tv/wii-sdk-1.6.23.js"></script>
+<script src="https://wiinvent.tv/sdk/tv/wii-sdk-1.7.0.js"></script>
 ````
 
 1. Code Instream Sample:
@@ -25,7 +25,7 @@ if (Hls.isSupported()) {
     srcVideo: src,
     channelId: "3001",
     streamId: "2024",
-    contentType: WI.ContentType.VOD,
+    contentType: WI.ContentType.VIDEO,
     title: "noi dung 1",
     transId: "111",
     category: "1, 2",
@@ -157,7 +157,7 @@ window.addEventListener("message", function (e) {
 | playerType  | WI.PlayerType.VIDEO_JS <br> WI.PlayerType.SHAKA <br> WI.PlayerType.HLS <br/>WI.PlayerType.AKAMAI |  
 | deviceType  | WI.DeviceType.TV <br/> WI.DeviceType.WEB                                                         |  
 | env         | WI.Environment.SANDBOX <br/> WI.Environment.PRODUCTION                                           |   
-| contentType | WI.ContentType.VOD <br/>WI.ContentType.LIVE_STREAM                                               | 
+| contentType | WI.ContentType.TV <br/>WI.ContentType.FILM <br/>WI.ContentType.VIDEO                             | 
 | gender      | WI.Gender.MALE <br/>WI.Gender.FEMALE <br/>WI.Gender.OTHER <br/>WI.Gender.NONE                    | 
 
 5. Ads Callback
