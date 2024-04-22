@@ -11,7 +11,7 @@
   <h1>Welcome demo</h1>
 </div>
 
-<script src="https://wiinvent.tv/sdk/tv/wii-sdk-1.7.1.js"></script>
+<script src="https://wiinvent.tv/sdk/tv/wii-sdk-1.7.2.js"></script>
 
 <script>
 
@@ -20,9 +20,10 @@
   wiiSdk = new WI.WelcomeSdk({
     env: WI.Environment.SANDBOX,
     tenantId: 14,
-    transId: "111",
-    age: "20",
-    gender: WI.Gender.MALE,
+    transId: "111", //mã giao dịch tạo từ server đối tác - client liên hệ server để biết thêm thông tin
+    age: "20", // tuổi , nếu không có thì để 0
+    gender: WI.Gender.MALE, //giới tính nếu không có thì set NONE
+    uid20: "", // unified id 2.0, nếu không có thì set ""
     deviceType: WI.DeviceType.TV,
     partnerSkipOffset: 5,
     vastLoadTimeout: 10,
