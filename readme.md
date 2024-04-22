@@ -23,12 +23,12 @@ if (Hls.isSupported()) {
     domId: "videoId",
     player: video,
     srcVideo: src,
-    channelId: "2", //danh sách id của category & cách nhau bằng dấu ","
+    channelId: "2", // danh sách id của category của nội dung & cách nhau bằng dấu ","    
     streamId: "1999", // id nội dung
     contentType: WI.ContentType.VIDEO, //content type FIRM | TV | VIDEO
     title: "noi dung 1", // tiêu đề nội dung
     transId: "111", //mã giao dịch tạo từ server đối tác - client liên hệ server để biết thêm thông tin
-    category: "1, 2", // danh sach tiêu đề của category & cách nhau bằng dấu ","
+    category: "1, 2", // danh sach tiêu đề category của nội dung & cách nhau bằng dấu ","  
     keyword: "1, 2", //từ khoá nếu có | để "" nếu ko có
     age: "20", // tuổi , nếu không có thì để 0
     gender: WI.Gender.MALE, //giới tính nếu không có thì set NONE
@@ -128,30 +128,30 @@ window.addEventListener("message", function (e) {
 ```
 3. Parameter
 
-| Key                     | Description                                               |     Type |
-|:------------------------|:----------------------------------------------------------|---------:|
-| tenantId                | Identifier of the account created by the Broadcast Center |  integer |
-| channelId               | Identifier of the channel created by partner              |   string |
-| streamId                | Identifier of the channel created by partner              |   string |
-| vastLoadTimeout         | Vast Load Timeout                                         |  integer |
-| mediaLoadTimeout        | Media Load Timeout                                        |  integer |
-| bufferingVideoTimeout   | Buffering Video Timeout                                   |  integer |                                  
-| partnerSkipOffset       | Skip Ad Duration                                          |  integer |                                  
-| env                     | Override the API host url for development and testing     | constant |
-| deviceType              | Device Type                                               | constant |
-| thirdPartyToken         | JWT Token from partner                                    |   string |
-| alwaysCustomSkip        | Decided to use custom skip button                         |  boolean |
-| isAutoRequestFocus      | Decided to focus on skip button after skip time           |  boolean |
-| bitrate                 | Bitrate                                                   |   number |
-| skipText                | Text show on skip button when time count                  |   string |
-| skippableText           | Text show on skip button when can skip                    |   string |
-| isUsePartnerSkipButton  | Decide using skip button or not                           |   string |
-| title                   | Tiêu đề của nội dung                                    |   string |
-| tranId                  | Thông tin theo yêu cẩu của đối tác                      |   string |
-| category                | Danh sách danh mục - được ngăn cách bởi dấu ,           |   string |
-| keyword                 | Từ khoá tìm kiếm của nội dung (nếu có)                  |   string |
-| age                     | Tuổi (Nếu có)                                           |   number |
-| gender                  | Giới tính (nếu có)                                      | constant |
+| Key                   | Description                                                                       |     Type |
+|:----------------------|:----------------------------------------------------------------------------------|---------:|
+| tenantId              | Identifier of the account created by the Broadcast Center                         |  integer |
+| channelId             | Danh sách id của category của nội dung & cách nhau bằng dấu ","                   |   string |
+| streamId              | Id nội dung                                                                       |   string |
+| vastLoadTimeout       | Vast Load Timeout                                                                 |  integer |
+| mediaLoadTimeout      | Media Load Timeout                                                                |  integer |
+| bufferingVideoTimeout | Buffering Video Timeout                                                           |  integer |                                  
+| partnerSkipOffset     | Skip Ad Duration                                                                  |  integer |                                  
+| env                   | Override the API host url for development and testing                             | constant |
+| deviceType            | Device Type                                                                       | constant |
+| thirdPartyToken       | JWT Token from partner                                                            |   string |
+| playerType            | Player Type                                                                       | constant |
+| alwaysCustomSkip      | Decided to use custom skip button                                                 |  boolean |
+| isAutoRequestFocus    | Decided to focus on skip button after skip time                                   |  boolean |
+| bitrate               | Bitrate                                                                           |   number |
+| title                 | Tiêu đề của nội dung                                                              |   string |
+| tranId                | Mã giao dịch tạo từ server đối tác - client liên hệ server để biết thêm thông tin |   string |
+| category              | Danh sach tiêu đề category của nội dung & cách nhau bằng dấu ","                  |   string |
+| keyword               | Từ khoá tìm kiếm của nội dung (nếu có)                                            |   string |
+| age                   | Tuổi (Nếu có)                                                                     |   number |
+| gender                | Giới tính (nếu có)                                                                | constant |
+| uid20                 | Unified id 2.0                                                                    |   string |
+
 4. Constant
 
 | Key         | Description                                                                                      |     
