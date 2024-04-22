@@ -150,7 +150,7 @@ window.addEventListener("message", function (e) {
 | keyword               | Từ khoá tìm kiếm của nội dung (nếu có)                                            |   string |
 | age                   | Tuổi (Nếu có)                                                                     |   number |
 | gender                | Giới tính (nếu có)                                                                | constant |
-| uid20                 | Unified id 2.0                                                                    |   string |
+| uid20                 | Unified id 2.0 (nếu có)                                                           |   string |
 
 4. Constant
 
