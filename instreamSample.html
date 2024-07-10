@@ -1,59 +1,65 @@
 <html lang="en">
 <head>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-        }
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
 
-        #wrapper {
-            position: relative;
-            width: 100vw;
-            height: 100vh;
-        }
+    #wrapper {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+    }
 
-        #video-content {
-            width: 100%;
-            height: 100%;
-        }
+    #video-content {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
 
-        #videoId {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
+    #videoId {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
 
-        #videoFake {
-            width: 100%;
-            height: 100%;
-            visibility: hidden;
-        }
-    </style>
-    <title>WebOs demo</title>
+    #videoFake {
+      width: 100%;
+      height: 100%;
+      visibility: hidden;
+    }
+  </style>
+  <title>WebOs demo</title>
 </head>
 
 <body>
 <script src="https://wiinvent.tv/sdk/tv/wii-sdk-1.7.5.js"></script>
 
 <div id="wrapper">
-    <video id="video-content" controls playsinline muted>
-        <source src="http://vjs.zencdn.net/v/oceans.mp4" type="video/mp4">
-    </video>
 
-    <div id="videoId">
-        <video id="videoFake" controls></video>
-    </div>
+  <video id="video-content" controls playsinline muted>
+    <source src="http://vjs.zencdn.net/v/oceans.mp4" type="video/mp4">
+  </video>
+
+  <div id="videoId">
+    <video id="videoFake" controls></video>
+  </div>
 
 </div>
-
 
 
 <script>
   var content = document.getElementById('video-content')
   var videoFake = document.getElementById('videoFake');
   var wiiSdk = []
+  var isPlayed = false
 
   wiiSdk = new WI.InstreamSdk({
     env: WI.Environment.SANDBOX,
@@ -62,7 +68,7 @@
     domId: "videoId",
     player: videoFake,
     channelId: "2", // danh sách id của category của nội dung & cách nhau bằng dấu ","
-    streamId: "1999", // id nội dung
+    streamId: "1966", // id nội dung
     contentType: WI.ContentType.VIDEO, //content type FIRM | TV | VIDEO
     title: "noi dung 1", // tiêu đề nội dung
     transId: "111", //mã giao dịch tạo từ server đối tác - client liên hệ server để biết thêm thông tin
@@ -82,7 +88,14 @@
     skippableText: "Skip ads",
     isUsePartnerSkipButton: true
   })
-  wiiSdk.start()
+
+  content.addEventListener('play', () => {
+    if (!isPlayed) {
+      document.getElementById('videoId').style.zIndex = 2
+      wiiSdk.start()
+    }
+    isPlayed = true
+  })
 
   window.addEventListener("message", function (e) {
     if (

@@ -7,48 +7,46 @@ SDK:
 1. Code Instream Sample:
 
 ```javascript
-var video = document.getElementById('video');
-var src = "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+ var content = document.getElementById('video-content')
+var videoFake = document.getElementById('videoFake');
 var wiiSdk = []
+var isPlayed = false
 
-if (Hls.isSupported()) {
-  var hls = new Hls({
-    enableWorker: true,
-    debug: true,
-  });
-  wiiSdk = new WI.InstreamSdk({
-    env: WI.Environment.SANDBOX,
-    tenantId: 14,
-    deviceType: WI.DeviceType.TV,
-    domId: "videoId",
-    player: video,
-    srcVideo: src,
-    channelId: "2", // danh sách id của category của nội dung & cách nhau bằng dấu ","    
-    streamId: "1999", // id nội dung
-    contentType: WI.ContentType.VIDEO, //content type FIRM | TV | VIDEO
-    title: "noi dung 1", // tiêu đề nội dung
-    transId: "111", //mã giao dịch tạo từ server đối tác - client liên hệ server để biết thêm thông tin
-    category: "1, 2", // danh sach tiêu đề category của nội dung & cách nhau bằng dấu ","  
-    keyword: "1, 2", //từ khoá nếu có | để "" nếu ko có
-    age: "20", // tuổi , nếu không có thì để 0
-    gender: WI.Gender.MALE, //giới tính nếu không có thì set NONE
-    uid20: "", // unified id 2.0, nếu không có thì set ""
-    partnerSkipOffset: 6,
-    vastLoadTimeout: 10,
-    mediaLoadTimeout: 10,
-    bufferingVideoTimeout: 15,
-    alwaysCustomSkip: true,
-    isAutoRequestFocus: false,
-    bitrate: 1024,
-    skipText: "Skip ads after {0} seconds",
-    skippableText: "Skip ads",
-    isUsePartnerSkipButton: true
-  })
-  hls.loadSource(src);
-  hls.attachMedia(video);
-  video.muted = true;
-  wiiSdk.start()
-}
+wiiSdk = new WI.InstreamSdk({
+  env: WI.Environment.SANDBOX,
+  tenantId: 14,
+  deviceType: WI.DeviceType.TV,
+  domId: "videoId",
+  player: videoFake,
+  channelId: "2", // danh sách id của category của nội dung & cách nhau bằng dấu ","
+  streamId: "1966", // id nội dung
+  contentType: WI.ContentType.VIDEO, //content type FIRM | TV | VIDEO
+  title: "noi dung 1", // tiêu đề nội dung
+  transId: "111", //mã giao dịch tạo từ server đối tác - client liên hệ server để biết thêm thông tin
+  category: "1, 2", // danh sach tiêu đề category của nội dung & cách nhau bằng dấu ","
+  keyword: "1, 2", //từ khoá nếu có | để "" nếu ko có
+  age: "20", // tuổi , nếu không có thì để 0
+  gender: WI.Gender.MALE, //giới tính nếu không có thì set NONE
+  uid20: "", // unified id 2.0, nếu không có thì set ""
+  partnerSkipOffset: 6,
+  vastLoadTimeout: 10,
+  mediaLoadTimeout: 10,
+  bufferingVideoTimeout: 15,
+  alwaysCustomSkip: true,
+  isAutoRequestFocus: false,
+  bitrate: 1024,
+  skipText: "Skip ads after {0} seconds",
+  skippableText: "Skip ads",
+  isUsePartnerSkipButton: true
+})
+
+content.addEventListener('play', () => {
+  if (!isPlayed) {
+    document.getElementById('videoId').style.zIndex = 2
+    wiiSdk.start()
+  }
+  isPlayed = true
+})
 
 window.addEventListener("message", function (e) {
   if (
@@ -70,6 +68,15 @@ window.addEventListener("message", function (e) {
       "ALL_ADS_COMPLETE",
     ].includes(e.data.type)) {
     console.log('mmmm', e)
+    switch (e.data.type) {
+      case "START":
+        content.pause()
+        break;
+      case "END":
+        document.getElementById('videoId').remove()
+        content.play()
+        break;
+    }
   }
 })
 
