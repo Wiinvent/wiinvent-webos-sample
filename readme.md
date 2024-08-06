@@ -1,7 +1,7 @@
 SDK:
 
 ````javascript
-<script src="https://wiinvent.tv/sdk/tv/wii-sdk-1.7.5.js"></script>
+<script src="https://wiinvent.tv/sdk/tv/wii-sdk-1.7.6.js"></script>
 ````
 
 1. Code Instream Sample:
@@ -37,7 +37,8 @@ wiiSdk = new WI.InstreamSdk({
   bitrate: 1024,
   skipText: "Skip ads after {0} seconds",
   skippableText: "Skip ads",
-  isUsePartnerSkipButton: true
+  isUsePartnerSkipButton: true,
+  segments: '1,2,3,11,22,33'
 })
 
 content.addEventListener('play', () => {
@@ -103,7 +104,8 @@ wiiSdk = new WI.WelcomeSdk({
   bitrate: 1024,
   skipText: "Skip ads after {0} seconds",
   skippableText: "Skip ads",
-  isUsePartnerSkipButton: true
+  isUsePartnerSkipButton: true,
+  segments: '1,2,3,11,22,33'
 })
 wiiSdk.start()
 
@@ -158,6 +160,7 @@ window.addEventListener("message", function (e) {
 | age                   | Tuổi (Nếu có)                                                                     |   number |
 | gender                | Giới tính (nếu có)                                                                | constant |
 | uid20                 | Unified id 2.0 (nếu có)                                                           |   string |
+| segments              | Danh sách segment id của user                                                     |   string |
 
 4. Constant
 
