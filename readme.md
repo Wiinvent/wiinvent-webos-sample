@@ -1,7 +1,7 @@
 SDK:
 
 ````javascript
-<script src="https://wiinvent.tv/sdk/tv/wii-sdk-2.0.3.js"></script>
+<script src="https://wiinvent.tv/sdk/tv/wii-sdk-2.0.5.js"></script>
 ````
 
 1. Code Instream Sample:
@@ -567,12 +567,13 @@ var wiiSdk = [];
 | EventType | HAVE_ADS         | Fired when have welcome ad                    |
 | EventType | NO_ADS           | Fired when not have welcome ad                |
 | EventType | REQUEST          | Fired when the ad requests                    |
+| EventType | GET_ADS          | Fired when the ad link gotten                 |
 | EventType | LOADED           | Fired when the ad loaded                      |
 | EventType | START            | Fired when the ad starts playing              |
 | EventType | IMPRESSION       | Fired when the impression URL has been pinged |
 | EventType | COMPLETE         | Fired when the ad completes playing           |
 | EventType | SKIPPED          | Fired when the ad is skipped by the user      |
+| EventType | BUFFERING        | Fired when the ad is buffering                |
 | EventType | ERROR            | Fired when the ad has an error                |
 | EventType | DESTROY          | Fires when the ad destroyed                   |
 | EventType | ALL_ADS_COMPLETE | Fires when no more ad will show up            |
-
