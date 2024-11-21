@@ -63,7 +63,7 @@
 
 </div>
 
-<script src="https://wiinvent.tv/sdk/tv/wii-sdk-2.0.7.js"></script>
+<script src="https://wiinvent.tv/sdk/tv/wii-sdk-2.0.13.js"></script>
 <script>
   var video = document.getElementById('video');
   var playPauseBtn = document.getElementById('play-pause');
@@ -115,10 +115,6 @@
 
       if (e.data.type === "REQUEST") {
         console.log("==== REQUEST ====");
-        if (!video.paused) {
-          video.pause();
-          adsContainer.zIndex = 10;
-        }
       }
       if (e.data.type === "LOADED") {
         console.log("==== LOADED ====");
@@ -134,6 +130,11 @@
       }
       if (e.data.type === "START") {
         console.log("==== START ====");
+        if (!video.paused) {
+          video.pause();
+          adsContainer.zIndex = 10;
+          wiiSdk.playAds()
+        }
         renderSkipButton();
       }
       if (e.data.type === "PAUSED") {
