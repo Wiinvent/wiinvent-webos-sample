@@ -13,7 +13,7 @@
 
 <script src="https://wiinvent.tv/sdk/tv/wii-sdk-2.0.13.js"></script>
 <script>
-
+  
   var wiiSdk = [];
   var skipButton = null;
   wiiSdk = new WI.WelcomeSdk({
@@ -40,8 +40,8 @@
     isUsePartnerSkipButton: true,
     segments: "1,2,3,11,22,33"
   })
-
-
+  
+  
   window.addEventListener("message", function (e) {
     if (
       [
@@ -65,21 +65,21 @@
       ].includes(e.data.type)
     ) {
       console.log("mmmm", e);
-
+      
       if (e.data.type === "START") {
         renderSkipButton(document.getElementById('wii_Welcome'));
       }
       if (e.data.type === "COMPLETE" || e.data.type === "All_ADS_COMPLETE") {
         contentPlayBack();
-
+        
       }
     }
   });
-
+  
   function renderSkipButton(adsContainer) {
     // Create the skip button element
     skipButton = document.createElement('button');
-
+    
     skipButton.style.cssText = `
       background-color: #000000;
       color: white;
@@ -106,7 +106,7 @@
     // Determine countdown and type of ad (skippable or non-skippable)
     let countdown = 5;
     let type = 'skip';
-
+    
     // Set button text based on ad type
     const text = {
       skip:
@@ -122,31 +122,31 @@
         ' &nbsp ' +
         '<svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 320 512" font-size=\'14px\'><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#ffffff}</style><path d="M52.5 440.6c-9.5 7.9-22.8 9.7-34.1 4.4S0 428.4 0 416V96C0 83.6 7.2 72.3 18.4 67s24.5-3.6 34.1 4.4l192 160L256 241V96c0-17.7 14.3-32 32-32s32 14.3 32 32V416c0 17.7-14.3 32-32 32s-32-14.3-32-32V271l-11.5 9.6-192 160z"/></svg>',
     };
-
+    
     skipButton.addEventListener('mouseover', () => {
       skipButton.style.backgroundColor = 'rgba(0,0,0,.9)';
       skipButton.style.border = '1px solid rgb(255,255,255)';
     });
-
+    
     skipButton.addEventListener('mouseout', () => {
       skipButton.style.backgroundColor = '#000000';
       skipButton.style.border = '1px solid rgba(255,255,255,.5)';
     });
-
+    
     skipButton.addEventListener('focus', () => {
       skipButton.style.backgroundColor = 'rgba(0,0,0,.9)';
       skipButton.style.border = '1px solid rgb(255,255,255)';
     });
-
+    
     skipButton.addEventListener('blur', () => {
       skipButton.style.boxShadow = 'none'; // Remove glow effect on blur
     });
-
+    
     // Disable skip button initially if it's a skippable ad
     if (type === 'skip') {
       skipButton.disabled = true;
     }
-
+    
     // Start countdown timer
     var timer = setInterval(() => {
       if (!skipButton) {
@@ -155,7 +155,7 @@
       }
       visibableEle(skipButton, true);
       skipButton.innerHTML = text[type].replace('countdown', countdown);
-
+      
       // Enable the skip button when the countdown finishes (if it's skippable)
       if (type === 'skip' && countdown <= 0) {
         skipButton.disabled = false;
@@ -167,7 +167,7 @@
       }
       countdown -= 1;
     }, 1000);
-
+    
     skipButton.addEventListener('click', () => {
       if (countdown <= 0) {
         wiiSdk.skip();
@@ -183,23 +183,23 @@
       }
     })
   }
-
+  
   function visibableEle(ele, visibable = true) {
     ele &&
     (ele.style.visibility = visibable ? 'visible' : 'hidden');
   }
-
+  
   function displayEle(ele, display = true) {
     ele &&
     (ele.style.display = display ? 'block' : 'none');
   }
-
+  
   function contentPlayBack() {
     // Play content
     console.log('Play content');
     document.body.removeChild(document.getElementById('wii_Welcome'));
   }
-
+  
   var firstTime = false;
   window.addEventListener('keydown', (e) => {
     console.log("mmmm", e);
