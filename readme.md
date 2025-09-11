@@ -228,8 +228,11 @@ progress.addEventListener('input', () => {
   video.currentTime = seekTime;
 });
 
-
 ```
+1.1. Diagram for instream
+
+![Instream Diagram](/diagram.jpg)
+
 2. Code Welcome Sample:
 
 ```javascript
