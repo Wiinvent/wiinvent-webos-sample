@@ -1,132 +1,74 @@
 SDK:
 
 ````javascript
-<script src="https://wiinvent.tv/sdk/tv/wii-sdk-2.0.35.js"></script>
+<script src="https://wiinvent.tv/sdk/tv/wii-sdk-3.0.0.js"></script>
 ````
 
 1. Code Instream Sample:
 
 ```javascript
- var video = document.getElementById('video');
-var playPauseBtn = document.getElementById('play-pause');
-var adsContainer = document.getElementById('wiinvent_ads_container_id');
-var controls = document.querySelector('.controls');
-var skipButton = null;
-var initAds = false;
-var wiiSdk = null;
+  // --- Player Elements ---
+const video = document.getElementById('content-video');
+const playPauseBtn = document.getElementById('play-pause');
+const adsContainer = document.getElementById('wiinvent_ads_container_id');
+const controls = document.querySelector('.controls');
 
-// Play/Pause functionality
+let wiiSdk = null;
+let adsInitialized = false;
+let skipButton = null; // Keep a reference to the skip button
+let isAdPlaying = false;
+// --- Main Player Logic ---
 playPauseBtn.addEventListener('click', () => {
-  if (video.paused || video.ended) {
-    video.play();
-    playPauseBtn.textContent = 'Pause';
+  if (video.paused || video.ended) video.play();
+  else video.pause();
+});
+
+video.addEventListener('play', () => {
+  playPauseBtn.textContent = 'Pause';
+  if (!adsInitialized) {
     handleAds();
-    initAds = true;
-  } else {
-    video.pause();
-    playPauseBtn.textContent = 'Play';
+    adsInitialized = true;
   }
 });
 
+video.addEventListener('pause', () => {
+  playPauseBtn.textContent = 'Play';
+});
 
+// --- SDK ENUMS SETUP (FIXED) ---
+
+//   // Create a single global object to hold all SDK enums.
+//   const WI = {};
+
+//   WI.EventType = {
+//     'REQUEST': 'REQUEST', 'START': 'START', 'IMPRESSION': 'IMPRESSION',
+//     "CLICK": "CLICK", 'COMPLETE': 'COMPLETE', "SKIPPED": "SKIPPED",
+//     'ERROR': 'ERROR', /* ...and so on */
+//   };
+
+//   WI.Environment = {
+//     'SANDBOX': 'SANDBOX', 'PRODUCTION': "PRODUCTION",
+//     'VIETTEL_PRODUCTION': "VIETTEL_PRODUCTION",
+//   };
+
+//   WI.DeviceType = { 'PHONE': 'PHONE', 'TV': 'TV', 'WEB': 'WEB' };
+
+//   WI.ContentType = {
+//     'VOD': "VOD", "LIVE_STREAM": "LIVE_STREAM", "VIDEO": "VIDEO",
+//   };
+
+//   WI.Gender = { 'MALE': 'MALE', 'FEMALE': 'FEMALE', 'NONE': 'NONE' };
+
+// --- SDK Initialization ---
 function handleAds() {
-  if (initAds) return;
-  
-  window.addEventListener("message", function (e) {
-    if (
-      [
-        "REQUEST",
-        "LOADED",
-        "START",
-        "PAUSED",
-        "RESUMED",
-        "ERROR",
-        "PLAYER_ERROR",
-        "CLICK",
-        "IMPRESSION",
-        "SKIPPED",
-        "COMPLETE",
-        "DESTROY",
-        "FULLSCREEN",
-        "END",
-        "All_ADS_COMPLETE",
-        "NO_ADS"
-      ].includes(e.data.type)
-    ) {
-      console.log("mmmm", e.data);
-    }
-    
-    if (e.data.type === "REQUEST") {
-      console.log("==== REQUEST ====");
-    }
-    if (e.data.type === "LOADED") {
-      console.log("==== LOADED ====");
-    }
-    if (e.data.type === "PLAYER_ERROR") {
-      console.log("==== PLAYER_ERROR ====");
-      contentPlayBack();
-    }
-    if (e.data.type === "ERROR") {
-      console.log("==== ERROR ====");
-    }
-    if (e.data.type === "BEGIN") {
-      console.log("==== BEGIN ====");
-    }
-    if (e.data.type === "START") {
-      console.log("==== START ====");
-      if (!video.paused) {
-        video.pause();
-        wiiSdk.playAds();
-        adsContainer.zIndex = 10;
-      }
-      renderSkipButton();
-    }
-    if (e.data.type === "GET_ADS") {
-      console.log("==== GET_ADS ====");
-      wiiSdk.setSource && wiiSdk.setSource();
-    }
-    if (e.data.type === "PAUSED") {
-      console.log("==== PAUSED ====");
-    }
-    if (e.data.type === "RESUMED") {
-      console.log("==== RESUMED ====");
-    }
-    if (e.data.type === "CLICK") {
-      console.log("==== CLICK ====");
-    }
-    if (e.data.type === "IMPRESSION") {
-      console.log("==== IMPRESSION ====");
-    }
-    if (e.data.type === "SKIPPED") {
-      console.log("==== SKIPPED ====");
-    }
-    if (e.data.type === "END") {
-      console.log("==== END ====");
-      contentPlayBack();
-    }
-    if (e.data.type === "COMPLETE") {
-      console.log("==== COMPLETE ====");
-      contentPlayBack();
-    }
-    if (e.data.type === "All_ADS_COMPLETE") {
-      console.log("==== All_ADS_COMPLETE ====");
-      contentPlayBack();
-    }
-    if (e.data.type === "DESTROY") {
-      console.log("==== DESTROY ====");
-    }
-    if (e.data.type === "FULLSCREEN") {
-      console.log("==== FULLSCREEN ====");
-    }
-  });
-  
-  window.wiiSdk = new WI.InstreamSdk({
+  const sdkConfig = {
+    domId: "wiinvent_ads_container_id",
+    liveTv: false,
     env: WI.Environment.SANDBOX,
     tenantId: 14,
     deviceType: WI.DeviceType.TV,
-    domId: "wiinvent_ads_container_id",
-    channelId: "",
-    streamId: "1509",
+    channelId: "115376",
+    streamId: "835015",
     adId: "1999",
     contentType: WI.ContentType.VIDEO,
     title: "noi dung 1",
@@ -151,193 +93,141 @@ function handleAds() {
     skippableText: "Skip ads",
     isUsePartnerSkipButton: true,
     segments: "1,2,3,11,22,33"
-  })
-  
+  };
+  wiiSdk = new WI.InstreamSdk(sdkConfig, 'content-video');
   wiiSdk.start();
 }
 
-
-function renderSkipButton() {
-  // Create the skip button element
-  controls && visibableEle(controls, false);
-  skipButton = document.createElement('button');
+// --- Event Listening & UI Control ---
+window.addEventListener("message", function (event) {
+  if (!event.data || !event.data.type) return;
   
+  const eventType = event.data.type;
+  console.log(`[CLIENT] Received ad event: ${eventType}`, event.data);
+  
+  // Ad break end events
+  const adBreakEndEvents = ['PAUSE_CONTENT', 'COMPLETE', 'SKIPPED', 'ERROR', 'ALL_ADS_COMPLETED', 'END'];
+  
+  if (eventType === 'PAUSE_CONTENT') {
+    // Ad has loaded, we can pause content if not already paused
+    if (!video.paused) video.pause();
+    wiiSdk.playAd(); // Trigger the ad break to play
+  }
+  
+  if (eventType === 'START') {
+    // Hide content controls and render the custom skip button
+    controls.classList.add('hidden');
+    renderSkipButton(event.data); // Pass ad data to the function
+    isAdPlaying = true;
+  }
+  if (eventType == 'RESUME_CONTENT' || eventType === 'ALL_ADS_COMPLETED') {
+    // Show content controls and destroy the custom skip button
+    console.log('[CLIENT] Ad break ended, resuming content.', isAdPlaying, video.paused);
+    if (isAdPlaying && video.paused) {
+      video.play();
+      controls.classList.remove('hidden');
+      destroySkipButton();
+      isAdPlaying = false;
+    }
+  }
+});
+
+// --- Custom Skip Button Logic ---
+
+/**
+ * Renders the custom skip button based on ad data.
+ * @param {object} adData - Data from the SDK's START event.
+ */
+function renderSkipButton(adData) {
+  // Prevent creating multiple buttons
+  if (skipButton) destroySkipButton();
+  
+  skipButton = document.createElement('button');
   skipButton.style.cssText = `
-        background-color: #000000;
-        color: white;
-        border: none;
-        cursor: not-allowed;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: absolute;
-        bottom: 20px;
-        right: 20px;
-        visibility: hidden;
-        border: 1px solid rgba(255,255,255,.5);
-        font-size: 1.1rem;
-        line-height: 1.6rem;
-        font-family: "Inter",Tahoma,Geneva,Verdana,sans-serif;
-        font-weight: 700;
-        color: #fff;
-        border-radius: .3rem;
-        padding: .7rem;
-        z-index: 100;
+        background-color: #000000; color: white; border: none; cursor: not-allowed; display: flex;
+        align-items: center; justify-content: center; position: absolute; bottom: 20px; right: 20px;
+        visibility: hidden; border: 1px solid rgba(255,255,255,.5); font-size: 1.1rem; line-height: 1.6rem;
+        font-family: "Inter",Tahoma,Geneva,Verdana,sans-serif; font-weight: 700; border-radius: .3rem;
+        padding: .7rem; z-index: 1000;
       `;
   adsContainer.appendChild(skipButton);
-  // Determine countdown and type of ad (skippable or non-skippable)
-  let countdown = 5;
-  let type = 'skip';
   
-  // Set button text based on ad type
+  // Use dynamic data from the event, with defaults
+  const isSkippable = adData.skippable !== false; // Skippable by default
+  let countdown = adData.skipOffset || 5;
+  const type = isSkippable ? 'skip' : 'nonSkip';
+  
   const text = {
-    skip:
-      `Skip in countdown seconds` +
-      ' &nbsp ' +
-      '<svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 320 512" font-size=\'14px\'><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#ffffff}</style><path d="M52.5 440.6c-9.5 7.9-22.8 9.7-34.1 4.4S0 428.4 0 416V96C0 83.6 7.2 72.3 18.4 67s24.5-3.6 34.1 4.4l192 160L256 241V96c0-17.7 14.3-32 32-32s32 14.3 32 32V416c0 17.7-14.3 32-32 32s-32-14.3-32-32V271l-11.5 9.6-192 160z"/></svg>',
-    skipDone:
-      'Skip ads ' +
-      ' &nbsp ' +
-      '<svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 320 512" font-size=\'14px\'><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#ffffff}</style><path d="M52.5 440.6c-9.5 7.9-22.8 9.7-34.1 4.4S0 428.4 0 416V96C0 83.6 7.2 72.3 18.4 67s24.5-3.6 34.1 4.4l192 160L256 241V96c0-17.7 14.3-32 32-32s32 14.3 32 32V416c0 17.7-14.3 32-32 32s-32-14.3-32-32V271l-11.5 9.6-192 160z"/></svg>',
-    nonSkip:
-      `Ad ends in countdown seconds` +
-      ' &nbsp ' +
-      '<svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 320 512" font-size=\'14px\'><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#ffffff}</style><path d="M52.5 440.6c-9.5 7.9-22.8 9.7-34.1 4.4S0 428.4 0 416V96C0 83.6 7.2 72.3 18.4 67s24.5-3.6 34.1 4.4l192 160L256 241V96c0-17.7 14.3-32 32-32s32 14.3 32 32V416c0 17.7-14.3 32-32 32s-32-14.3-32-32V271l-11.5 9.6-192 160z"/></svg>',
+    skip: `Bỏ qua sau countdown`,
+    skipDone: 'Bỏ qua quảng cáo',
+    nonSkip: `Quảng cáo kết thúc sau countdown`
   };
   
-  skipButton.addEventListener('mouseover', () => {
-    skipButton.style.backgroundColor = 'rgba(0,0,0,.9)';
-    skipButton.style.border = '1px solid rgb(255,255,255)';
-  });
-  
-  skipButton.addEventListener('mouseout', () => {
-    skipButton.style.backgroundColor = '#000000';
-    skipButton.style.border = '1px solid rgba(255,255,255,.5)';
-  });
-  
-  skipButton.addEventListener('focus', () => {
-    skipButton.style.backgroundColor = 'rgba(0,0,0,.9)';
-    skipButton.style.border = '1px solid rgb(255,255,255)';
-  });
-  
-  skipButton.addEventListener('blur', () => {
-    skipButton.style.boxShadow = 'none'; // Remove glow effect on blur
-  });
-  
-  // Disable skip button initially if it's a skippable ad
-  if (type === 'skip') {
+  if (isSkippable) {
     skipButton.disabled = true;
   }
   
-  // Start countdown timer
-  var timer = setInterval(() => {
+  const timer = setInterval(() => {
     if (!skipButton) {
       clearInterval(timer);
       return;
     }
-    visibableEle(skipButton, true);
+    skipButton.style.visibility = 'visible';
     skipButton.innerHTML = text[type].replace('countdown', countdown);
     
-    // Enable the skip button when the countdown finishes (if it's skippable)
-    if (type === 'skip' && countdown <= 0) {
+    if (isSkippable && countdown <= 0) {
       skipButton.disabled = false;
+      skipButton.style.cursor = 'pointer';
       skipButton.innerHTML = text.skipDone;
+      clearInterval(timer); // Stop countdown once skippable
     }
-    if (type === 'nonSkip' && countdown <= 0) {
-      visibableEle(skipButton, false);
+    if (!isSkippable && countdown <= 0) {
+      destroySkipButton(); // Auto-remove non-skippable button when countdown ends
       clearInterval(timer);
     }
     countdown -= 1;
   }, 1000);
   
   skipButton.addEventListener('click', () => {
-    if (countdown <= 0) {
+    if (!skipButton.disabled) {
+      // IMPORTANT: The SDK must have a public .skip() method.
       wiiSdk.skip();
-      contentPlayBack();
+      // The SDK will fire a SKIPPED event, which the main listener will catch to clean up UI.
     }
   });
-  window.addEventListener('keydown', () => {
-    if (event.key === 'Enter' || event.keyCode === 13) {
-      if (countdown <= 0) {
-        wiiSdk.skip();
-        contentPlayBack();
-      }
-    }
-  })
 }
 
-function visibableEle(ele, visibable = true) {
-  ele &&
-  (ele.style.visibility = visibable ? 'visible' : 'hidden');
+function destroySkipButton() {
+  if (skipButton) {
+    skipButton.remove();
+    skipButton = null;
+  }
 }
 
-function displayEle(ele, display = true) {
-  ele &&
-  (ele.style.display = display ? 'block' : 'none');
-}
-
-function contentPlayBack() {
-  // Resume video playback
-  video.play();
-  skipButton && adsContainer && adsContainer.removeChild(skipButton);
-  controls && visibableEle(controls, true);
-  displayEle(adsContainer, false);
-}
-
-var video = document.getElementById('video');
-var progress = document.getElementById('progress');
-var time = document.getElementById('time');
-
-// Update progress bar and time
+// --- Standard Player Progress Bar (MODIFIED) ---
 video.addEventListener('timeupdate', () => {
+  // MODIFIED: Check the flag. If an ad is playing, do not update the progress bar.
+  if (isAdPlaying || isNaN(video.duration)) {
+    return;
+  }
+  
   const progressPercent = (video.currentTime / video.duration) * 100;
   progress.value = progressPercent;
   
-  // Update time display
-  const currentMinutes = Math.floor(video.currentTime / 60);
-  const currentSeconds = Math.floor(video.currentTime % 60)
-    .toString()
-    .padStart(2, '0');
-  const durationMinutes = Math.floor(video.duration / 60);
-  const durationSeconds = Math.floor(video.duration % 60)
-    .toString()
-    .padStart(2, '0');
-  time.textContent = `${currentMinutes}:${currentSeconds} / ${durationMinutes}:${durationSeconds}`;
+  const formatTime = (seconds) => {
+    const min = Math.floor(seconds / 60);
+    const sec = Math.floor(seconds % 60).toString().padStart(2, '0');
+    return `${min}:${sec}`;
+  };
+  time.textContent = `${formatTime(video.currentTime)} / ${formatTime(video.duration)}`;
 });
 
-// Seek video
 progress.addEventListener('input', () => {
+  if (isAdPlaying || isNaN(video.duration)) return;
   const seekTime = (progress.value / 100) * video.duration;
   video.currentTime = seekTime;
 });
 
-var video = document.getElementById('video');
-var progress = document.getElementById('progress');
-var time = document.getElementById('time');
-
-
-// Update progress bar and time
-video.addEventListener('timeupdate', () => {
-  const progressPercent = (video.currentTime / video.duration) * 100;
-  progress.value = progressPercent;
-  
-  // Update time display
-  const currentMinutes = Math.floor(video.currentTime / 60);
-  const currentSeconds = Math.floor(video.currentTime % 60)
-    .toString()
-    .padStart(2, '0');
-  const durationMinutes = Math.floor(video.duration / 60);
-  const durationSeconds = Math.floor(video.duration % 60)
-    .toString()
-    .padStart(2, '0');
-  time.textContent = `${currentMinutes}:${currentSeconds} / ${durationMinutes}:${durationSeconds}`;
-});
-
-// Seek video
-progress.addEventListener('input', () => {
-  const seekTime = (progress.value / 100) * video.duration;
-  video.currentTime = seekTime;
-});
 
 ```
 2. Code Welcome Sample:
