@@ -1,7 +1,7 @@
 SDK:
 
 ````javascript
-<script src="https://wiinvent.tv/sdk/tv/wii-sdk-3.0.1.js"></script>
+<script src="https://wiinvent.tv/sdk/tv/wii-sdk-3.0.2.js"></script>
 ````
 
 1. Code Instream Sample:
@@ -34,30 +34,6 @@ video.addEventListener('play', () => {
 video.addEventListener('pause', () => {
   playPauseBtn.textContent = 'Play';
 });
-
-// --- SDK ENUMS SETUP (FIXED) ---
-
-//   // Create a single global object to hold all SDK enums.
-//   const WI = {};
-
-//   WI.EventType = {
-//     'REQUEST': 'REQUEST', 'START': 'START', 'IMPRESSION': 'IMPRESSION',
-//     "CLICK": "CLICK", 'COMPLETE': 'COMPLETE', "SKIPPED": "SKIPPED",
-//     'ERROR': 'ERROR', /* ...and so on */
-//   };
-
-//   WI.Environment = {
-//     'SANDBOX': 'SANDBOX', 'PRODUCTION': "PRODUCTION",
-//     'VIETTEL_PRODUCTION': "VIETTEL_PRODUCTION",
-//   };
-
-//   WI.DeviceType = { 'PHONE': 'PHONE', 'TV': 'TV', 'WEB': 'WEB' };
-
-//   WI.ContentType = {
-//     'VOD': "VOD", "LIVE_STREAM": "LIVE_STREAM", "VIDEO": "VIDEO",
-//   };
-
-//   WI.Gender = { 'MALE': 'MALE', 'FEMALE': 'FEMALE', 'NONE': 'NONE' };
 
 // --- SDK Initialization ---
 function handleAds() {
@@ -231,7 +207,7 @@ progress.addEventListener('input', () => {
 ```
 1.1. Diagram for instream
 
-![Instream Diagram](/diagram_new.jpg)
+![Instream Diagram](/diagram.jpg)
 
 2. Code Welcome Sample:
 
