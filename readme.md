@@ -1,7 +1,7 @@
 SDK:
 
 ````javascript
-<script src="https://wiinvent.tv/sdk/tv/wii-sdk-3.0.0.js"></script>
+<script src="https://wiinvent.tv/sdk/tv/wii-sdk-3.0.1.js"></script>
 ````
 
 1. Code Instream Sample:
@@ -231,7 +231,7 @@ progress.addEventListener('input', () => {
 ```
 1.1. Diagram for instream
 
-![Instream Diagram](/diagram.jpg)
+![Instream Diagram](/diagram_new.jpg)
 
 2. Code Welcome Sample:
 

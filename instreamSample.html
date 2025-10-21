@@ -53,7 +53,7 @@
   </div>
 </div>
 
-<script src="https://wiinvent.tv/sdk/tv/wii-sdk-3.0.0.js"></script>
+<script src="https://wiinvent.tv/sdk/tv/wii-sdk-3.0.1.js"></script>
 
 <script>
   // --- Player Elements ---
@@ -143,7 +143,9 @@
       isUsePartnerSkipButton: true,
       segments: "1,2,3,11,22,33"
     };
+    // STEP 1: init Wii SDK
     wiiSdk = new WI.InstreamSdk(sdkConfig, 'content-video');
+    // STEP 5: start SDK
     wiiSdk.start();
   }
   
@@ -159,12 +161,14 @@
     
     if (eventType === 'PAUSE_CONTENT') {
       // Ad has loaded, we can pause content if not already paused
+      // STEP 7: Pause content video
       if (!video.paused) video.pause();
       wiiSdk.playAd(); // Trigger the ad break to play
     }
     
     if (eventType === 'START') {
       // Hide content controls and render the custom skip button
+      // STEP 14, 15: Hide content controls & show custom skip button
       controls.classList.add('hidden');
       renderSkipButton(event.data); // Pass ad data to the function
       isAdPlaying = true;
@@ -240,6 +244,7 @@
     skipButton.addEventListener('click', () => {
       if (!skipButton.disabled) {
         // IMPORTANT: The SDK must have a public .skip() method.
+        // STEP 17: Call SDK skip method on button click
         wiiSdk.skip();
         // The SDK will fire a SKIPPED event, which the main listener will catch to clean up UI.
       }
