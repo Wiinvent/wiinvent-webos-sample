@@ -53,7 +53,7 @@
   </div>
 </div>
 
-<script src="https://wiinvent.tv/sdk/tv/wii-sdk-3.0.2.js"></script>
+<script src="https://wiinvent.tv/sdk/tv/wii-sdk-3.0.3.js"></script>
 
 <script>
   // --- Player Elements ---
@@ -117,7 +117,7 @@
       tenantId: 14,
       deviceType: WI.DeviceType.TV,
       channelId: "115376",
-      streamId: "21430",
+      streamId: "23203", // 23173, 23203
       adId: "1999",
       contentType: WI.ContentType.VIDEO,
       title: "noi dung 1",
@@ -144,15 +144,19 @@
       segments: "1,2,3,11,22,33"
     };
     // STEP 1: init Wii SDK
-    wiiSdk = new WI.InstreamSdk(sdkConfig, 'content-video');
+    window.wiiSdk = new WI.InstreamSdk(sdkConfig);
     // STEP 2: start SDK
-    wiiSdk.start();
+    window.wiiSdk.start();
     // Optional STEP 2.1: wiiSdk.setDuration(duration)
-    wiiSdk.setDuration(video.duration);
+    window.wiiSdk.setDuration(video.duration);
     
     // LOOP: Update currentTime content
     const timer = setInterval(() => {
-      wiiSdk.updateTime(video.currentTime, video.duration);
+      if (!window.wiiSdk || video.paused || video.ended) {
+        return;
+      }
+      // console.log('[CLIENT] Updating SDK with current time:', video.currentTime);
+      window.wiiSdk.updateTime(video.currentTime, video.duration);
     }, 200);
   }
   
@@ -171,18 +175,20 @@
       // Ad has loaded, we can pause content if not already paused
       // STEP 7: Pause content video
       if (!video.paused) video.pause();
-      wiiSdk.playAd(); // Trigger the ad break to play
+      console.log('[CLIENT] Ad break starting, content paused.', window.wiiSdk);
+      // STEP 8: Callbacl playAd to trigger ad break
+      window.wiiSdk.playAd(); // Trigger the ad break to play
     }
     
     // STEP 14: Event: START
     if (eventType === 'START') {
       // Hide content controls and render the custom skip button
-      // STEP 15: Call renderSkipButton function
       controls.classList.add('hidden');
+      // STEP 15: Call renderSkipButton function
       renderSkipButton(event.data); // Pass ad data to the function
       isAdPlaying = true;
     }
-    if (eventType == 'RESUME_CONTENT' || eventType === 'ALL_ADS_COMPLETED') {
+    if (eventType === 'ALL_ADS_COMPLETED') {
       // Show content controls and destroy the custom skip button
       console.log('[CLIENT] Ad break ended, resuming content.', isAdPlaying, video.paused);
       if (isAdPlaying && video.paused) {
@@ -255,7 +261,7 @@
       if (!skipButton.disabled) {
         // IMPORTANT: The SDK must have a public .skip() method.
         // STEP 17: Call SDK skip method on button click
-        wiiSdk.skip();
+        window.wiiSdk.skip();
         // The SDK will fire a SKIPPED event, which the main listener will catch to clean up UI.
       }
     });

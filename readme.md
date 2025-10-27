@@ -1,13 +1,13 @@
 SDK:
 
 ````javascript
-<script src="https://wiinvent.tv/sdk/tv/wii-sdk-3.0.2.js"></script>
+<script src="https://wiinvent.tv/sdk/tv/wii-sdk-3.0.3.js"></script>
 ````
 
 1. Code Instream Sample:
 
 ```javascript
-  // --- Player Elements ---
+// --- Player Elements ---
 const video = document.getElementById('content-video');
 const playPauseBtn = document.getElementById('play-pause');
 const adsContainer = document.getElementById('wiinvent_ads_container_id');
@@ -35,6 +35,30 @@ video.addEventListener('pause', () => {
   playPauseBtn.textContent = 'Play';
 });
 
+// --- SDK ENUMS SETUP (FIXED) ---
+
+//   // Create a single global object to hold all SDK enums.
+//   const WI = {};
+
+//   WI.EventType = {
+//     'REQUEST': 'REQUEST', 'START': 'START', 'IMPRESSION': 'IMPRESSION',
+//     "CLICK": "CLICK", 'COMPLETE': 'COMPLETE', "SKIPPED": "SKIPPED",
+//     'ERROR': 'ERROR', /* ...and so on */
+//   };
+
+//   WI.Environment = {
+//     'SANDBOX': 'SANDBOX', 'PRODUCTION': "PRODUCTION",
+//     'VIETTEL_PRODUCTION': "VIETTEL_PRODUCTION",
+//   };
+
+//   WI.DeviceType = { 'PHONE': 'PHONE', 'TV': 'TV', 'WEB': 'WEB' };
+
+//   WI.ContentType = {
+//     'VOD': "VOD", "LIVE_STREAM": "LIVE_STREAM", "VIDEO": "VIDEO",
+//   };
+
+//   WI.Gender = { 'MALE': 'MALE', 'FEMALE': 'FEMALE', 'NONE': 'NONE' };
+
 // --- SDK Initialization ---
 function handleAds() {
   const sdkConfig = {
@@ -44,7 +68,7 @@ function handleAds() {
     tenantId: 14,
     deviceType: WI.DeviceType.TV,
     channelId: "115376",
-    streamId: "835015",
+    streamId: "23203", // 23173, 23203
     adId: "1999",
     contentType: WI.ContentType.VIDEO,
     title: "noi dung 1",
@@ -70,8 +94,21 @@ function handleAds() {
     isUsePartnerSkipButton: true,
     segments: "1,2,3,11,22,33"
   };
-  wiiSdk = new WI.InstreamSdk(sdkConfig, 'content-video');
-  wiiSdk.start();
+  // STEP 1: init Wii SDK
+  window.wiiSdk = new WI.InstreamSdk(sdkConfig);
+  // STEP 2: start SDK
+  window.wiiSdk.start();
+  // Optional STEP 2.1: wiiSdk.setDuration(duration)
+  window.wiiSdk.setDuration(video.duration);
+  
+  // LOOP: Update currentTime content
+  const timer = setInterval(() => {
+    if (!window.wiiSdk || video.paused || video.ended) {
+      return;
+    }
+    // console.log('[CLIENT] Updating SDK with current time:', video.currentTime);
+    window.wiiSdk.updateTime(video.currentTime, video.duration);
+  }, 200);
 }
 
 // --- Event Listening & UI Control ---
@@ -84,19 +121,25 @@ window.addEventListener("message", function (event) {
   // Ad break end events
   const adBreakEndEvents = ['PAUSE_CONTENT', 'COMPLETE', 'SKIPPED', 'ERROR', 'ALL_ADS_COMPLETED', 'END'];
   
+  // STEP 6: Event: PAUSE_CONTENT
   if (eventType === 'PAUSE_CONTENT') {
     // Ad has loaded, we can pause content if not already paused
+    // STEP 7: Pause content video
     if (!video.paused) video.pause();
-    wiiSdk.playAd(); // Trigger the ad break to play
+    console.log('[CLIENT] Ad break starting, content paused.', window.wiiSdk);
+    // STEP 8: Callbacl playAd to trigger ad break
+    window.wiiSdk.playAd(); // Trigger the ad break to play
   }
   
+  // STEP 14: Event: START
   if (eventType === 'START') {
     // Hide content controls and render the custom skip button
     controls.classList.add('hidden');
+    // STEP 15: Call renderSkipButton function
     renderSkipButton(event.data); // Pass ad data to the function
     isAdPlaying = true;
   }
-  if (eventType == 'RESUME_CONTENT' || eventType === 'ALL_ADS_COMPLETED') {
+  if (eventType === 'ALL_ADS_COMPLETED') {
     // Show content controls and destroy the custom skip button
     console.log('[CLIENT] Ad break ended, resuming content.', isAdPlaying, video.paused);
     if (isAdPlaying && video.paused) {
@@ -164,10 +207,12 @@ function renderSkipButton(adData) {
     countdown -= 1;
   }, 1000);
   
+  // STEP 16: Handle skip button click
   skipButton.addEventListener('click', () => {
     if (!skipButton.disabled) {
       // IMPORTANT: The SDK must have a public .skip() method.
-      wiiSdk.skip();
+      // STEP 17: Call SDK skip method on button click
+      window.wiiSdk.skip();
       // The SDK will fire a SKIPPED event, which the main listener will catch to clean up UI.
     }
   });
